@@ -69,8 +69,9 @@ define jenkins_job_builder::job (
   }
 
   exec { "manage jenkins job - ${name}":
-    command     => "/bin/sleep ${delay} && /usr/local/bin/jenkins-jobs --ignore-cache --conf /etc/jenkins_jobs/jenkins_jobs.ini update /tmp/jenkins-${name}.yaml",
+    command     => "/bin/sleep ${delay} && jenkins-jobs --ignore-cache --conf /etc/jenkins_jobs/jenkins_jobs.ini update /tmp/jenkins-${name}.yaml",
     refreshonly => true,
+    path        => '/usr/local/bin:/usr/bin:/bin',
     tries       => $tries,
     try_sleep   => $try_sleep,
     require     => Service[$service_name]
